@@ -12,6 +12,9 @@
 `sudo docker compose restart -d`
 `sudo docker compose down`
 
+docker cp ejbca:/opt/keyfactor/secrets/persistent/tls/ejbca.besign.app/server.jks .
+docker cp ejbca:/opt/keyfactor/secrets/persistent/tls/ejbca.besign.app/server.storepasswd .
+
 key in /opt/keyfactor/secrets/server.\*
 `keytool -importkeystore -srckeystore server.jks -destkeystore server.p12 -srcstoretype JKS -deststoretype PKCS12`
 
@@ -50,3 +53,37 @@ Subject DN Attributes : CN, Common name. // Add
 check Required, Modifiable
 Subject Alternative Name [?]: RFC 822 Name (e-mail address) // Add
 check Use entity e-mail field
+
+## Add SuperAdmin
+
+### Add Role Access
+
+menu Roles and Access Roles
+Add
+X509: CN, Common name
+CA: ManagementCA
+Match Value: SuperAdmin2
+Add
+
+### Add End Entity
+
+End Entity Profile: EMPTY
+Username: superadmin2
+Password (or Enrollment Code): tcr8b8Z4FXd8ZWIM3iOzAJoL
+Confirm Password: tcr8b8Z4FXd8ZWIM3iOzAJoL
+Batch generation (clear text pwd storage): Use
+userid: c-0cpcnb7nuiqyrnjob
+O, Organization: EJBCA Container Quickstart
+CN, Common name: SuperAdmin2
+Certificate Profile: ENDUSER
+CA: ManagementCA
+Token: P12 file
+Add
+
+### Download
+
+goto RA Web https://192.168.1.150/ejbca/ra/enrollwithusername.xhtml
+Username: superadmin2
+Enrollment code: tcr8b8Z4FXd8ZWIM3iOzAJoL
+RSA, 2,048-bit
+Download JKS
