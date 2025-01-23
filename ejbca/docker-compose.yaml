@@ -17,16 +17,16 @@ services:
     volumes:
       - ./db:/var/lib/mysql:rw
   ejbca-node:
-    hostname: ejbca-node
+    hostname: 192.168.1.122 # hostname must require
     container_name: ejbca
-    image: keyfactor/ejbca-ce:latest
+    image: keyfactor/ejbca-ce
     depends_on:
       - ejbca-database
     networks:
       - access-bridge
       - application-bridge
     environment:
-      - DATABASE_JDBC_URL=jdbc:mariadb://ejbca-database:3306/ejbca?characterEncoding=UTF-8
+      - DATABASE_JDBC_URL=jdbc:mariadb://ejbca-database:3306/ejbca?characterEncoding=UTF-8&useSSL=false
       - LOG_LEVEL_APP=INFO
       - LOG_LEVEL_SERVER=INFO
       - TLS_SETUP_ENABLED=simple
